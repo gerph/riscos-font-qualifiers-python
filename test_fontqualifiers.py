@@ -176,6 +176,14 @@ class Test50ApplyFields(FQTestCase):
         self.assertEqual(fq.encoding, None)
         self.assertEqual(fq.matrix, [0, 0, 0, 0, 0, 0])
 
+    def test_21_apply_to_empty(self):
+        fq = fontqualifiers.FontQualifiers(r'', allow_empty=True)
+        fq.apply_fields(r'\FHomerton.Medium\ELatin1\M0 0 0 0 0 0')
+
+        self.assertEqual(fq.fontid, 'Homerton.Medium')
+        self.assertEqual(fq.encoding, 'Latin1')
+        self.assertEqual(fq.matrix, [0, 0, 0, 0, 0, 0])
+
 
 class Test50EncodeString(FQTestCase):
 

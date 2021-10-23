@@ -77,11 +77,30 @@ class FontQualifiers(object):
         """
         self.fontid = None
         self.fontlocal = None
-        self.encodinglocal = None
         self.encoding = None
+        self.encodinglocal = None
         self.matrix = None
 
         self.parse(font_string, need_trailing_space_on_matrix, allow_empty)
+
+    def __repr__(self):
+        parts = [('fontid', self.fontid),
+                 ('fontlocal', self.fontlocal),
+                 ('encoding', self.encoding),
+                 ('encodinglocal', self.encodinglocal),
+                 ('matrix', self.matrix)]
+        parts = [part for part in parts if part[1] is not None]
+        def value(p):
+            if p is FontQualifierEmpty:
+                return '<empty>'
+            else:
+                return repr(p)
+        parts = ["{}={}".format(part[0], value(part[1])) for part in parts]
+        return "<{}({})>".format(self.__class__.__name__,
+                                 ', '.join(parts))
+
+    def __str__(self):
+        return self.font_string
 
     @property
     def font_string(self):
@@ -119,6 +138,8 @@ class FontQualifiers(object):
         return ''.join(parts)
 
     def parse(self, font_string, need_trailing_space_on_matrix=False, allow_empty=False):
+        font_string = font_string or ''
+
         if font_string == '' and allow_empty:
             # This means that there are no fields to apply, so we can return with nothing set
             return
