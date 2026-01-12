@@ -5,10 +5,15 @@
 name: CI
 
 # Controls when the action will run. Triggers the workflow on:
-#   * push or pull request on any branch.
-
+#   * push on any branch.
+#   * tag creation for tags beginning with a 'v'
+#   * pull requests
 on:
+  push:
+    branches: ["*"]
+    tags: ["v*"]
   pull_request:
+    types: [opened, reopened, synchronize]
     branches: ["*"]
 
 jobs:
@@ -16,10 +21,11 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-24.04
     image: ubuntu:18.04
+    timeout-minutes: 20
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -53,7 +59,7 @@ jobs:
           files: artifacts/test-*.xml
 
       - name: Upload the test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: test-results
