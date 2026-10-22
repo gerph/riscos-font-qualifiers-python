@@ -20,8 +20,8 @@ ${VENV}/marker:
 	touch "${VENV}/marker"
 
 tests: setup artifacts
-	${IN_VENV} ${PYTHON} test_fontqualifiers.py -v --xunit-file artifacts/test-${PYTHON}.xml
+	${IN_VENV} ${PYTHON} -m pytest -v test_fontqualifiers.py --junitxml artifacts/test-${PYTHON}.xml
 
-coverage: setup
+coverage: setup artifacts
 	-rm -rf .coverage
-	${IN_VENV} ${PYTHON} test_fontqualifiers.py -v --with-coverage --cover-html --cover-package fontqualifiers --cover-html-dir artifacts/coverage-report --cover-xml --cover-xml-file artifacts/coverage.xml
+	${IN_VENV} ${PYTHON} -m pytest -v test_fontqualifiers.py --cov fontqualifiers --cov-report term --cov-report html:artifacts/coverage-report --cov-report xml:artifacts/coverage.xml
