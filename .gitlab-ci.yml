@@ -4,20 +4,6 @@
 #
 
 
-test-python2:
-  stage: unittest
-  script:
-    - make tests PYTHON=python2
-  dependencies: []
-  artifacts:
-    when: always
-    paths:
-      - artifacts
-    reports:
-      junit:
-        - artifacts/test-python2.xml
-
-
 test-python3:
   stage: unittest
   script:
@@ -39,20 +25,6 @@ coverage:
   dependencies: []
   #coverage: '/^Overall Coverage: (\d+(?:\.\d+)?)%.*$/'
   coverage: '/^fontqualifiers.* (\d+(?:\.\d+)?)%.*$/'
-
-
-.inttest-python2:
-  stage: inttest
-  script:
-    - make inttests PYTHON=python2
-  dependencies: []
-  artifacts:
-    when: always
-    paths:
-      - artifacts
-    reports:
-      junit:
-        - artifacts/inttest-python2.xml
 
 
 .inttest-python3:
