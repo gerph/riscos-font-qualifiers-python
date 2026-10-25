@@ -42,7 +42,6 @@ Code coverage is reported as well.
 To test, use:
 
 ```
-make tests PYTHON=python2
 make tests PYTHON=python3
 ```
 
